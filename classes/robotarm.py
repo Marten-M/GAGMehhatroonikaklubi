@@ -28,7 +28,6 @@ class RobotArm(object):
         self.first_arm_servo = first_arm_servo
         self.second_arm_servo = second_arm_servo
 
-
     def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[float, float]:
         """
         Get angles the servos should go under to reach desired distance.
@@ -58,13 +57,13 @@ class RobotArm(object):
         """
         steps = (target_angle - self.cur_angle) / self.step
 
-        if (steps * 10) % 10 >= 5: # Get the tenths
-            steps = int(steps) + 1
+        if int(abs(steps) * 10) % 10 >= 5: # Get the tenths
+            steps = int(steps) + 1 if steps >= 0 else int(steps) - 1
         else:
             steps = int(steps)
 
         return steps
-    
+
     def move_arm_to_position(self, target_stepper_angle: float, target_dist: float, target_height: float):
         """
         Move arm to given position.
@@ -80,3 +79,4 @@ class RobotArm(object):
         a, b = self.get_servo_angles(target_dist, target_height)
         self.first_arm_servo.set_angle(a)
         self.second_arm_servo.set_angle(b)
+
