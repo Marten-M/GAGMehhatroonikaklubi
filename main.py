@@ -15,7 +15,7 @@ if __name__ == "__main__":
     stepper = Stepper(STEPPER_STEP_PIN, STEPPER_DIRECTION_PIN, STEPPER_STEP_DEGREES)
     # Zero the stepper motor
     detector = Button(STEPPER_ZERO_POSITION_DETECT_PIN)
-    while not detector.is_pressed():
+    while not detector.is_pressed:
         stepper.rotate_steps(1)
 
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo)
