@@ -1,9 +1,9 @@
 """Robot arm class file."""
 from typing import Tuple
-from ..lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin
+from ...lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin
 
-from .motors.stepper import Stepper
-from .motors.servo import Servo
+from ..motors.stepper import Stepper
+from ..motors.servo import Servo
 
 
 class RobotArm(object):
@@ -28,7 +28,7 @@ class RobotArm(object):
         self.first_arm_servo = first_arm_servo
         self.second_arm_servo = second_arm_servo
 
-    def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[float, float]:
+    def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[int, int]:
         """
         Get angles the servos should go under to reach desired distance.
 
@@ -43,7 +43,7 @@ class RobotArm(object):
         a = arcsin(distance_from_arm / third_side) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side)
         b = get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
 
-        return (a, b)
+        return (int(a), int(b))
     
     def get_stepper_steps(self, target_angle: float) -> int:
         """

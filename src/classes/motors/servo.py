@@ -9,7 +9,7 @@ class Servo(object):
         self.motor.angle = -90
         self.cur_angle = 0
 
-    def set_angle(self, angle: float):
+    def set_angle(self, angle: int):
         """
         Set angle of servo motor.
 

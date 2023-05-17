@@ -1,11 +1,11 @@
 from gpiozero import Button
 
-from constants import *
+from src.constants import *
 
 from src.classes.motors.servo import Servo
 from src.classes.motors.stepper import Stepper
 
-from src.classes.robotarm import RobotArm
+from classes.chess.robotarm import RobotArm
 
 
 if __name__ == "__main__":
