@@ -1,0 +1,12 @@
+"""Helper functions in order to parse chess moves."""
+from typing import Tuple
+
+def get_coordinates_from_move(position: str) -> Tuple[int, int]:
+    """
+    Get integer x and y coordinates when given a chess board position.
+
+    :param position: chess board position in short nomenclature ("e5", "d4", etc)
+
+    :return: integer coordinates of position in the form (x, y)
+    """
+    return (ord(position[0].lower()) - ord('a'), int(position[1]) - 1)

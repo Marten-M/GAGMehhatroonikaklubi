@@ -5,9 +5,11 @@ from ...lib.mathfunctions import get_angle_between_triangle_sides, get_area_hero
 from ..motors.stepper import Stepper
 from ..motors.servo import Servo
 
+from .electromagnet import ElectroMagnet
+
 
 class RobotArm(object):
-    def __init__(self, first_arm_length: float, second_arm_length: float, starting_height: float, stepper: Stepper, first_arm_servo: Servo, second_arm_servo: Servo) -> None:
+    def __init__(self, first_arm_length: float, second_arm_length: float, starting_height: float, stepper: Stepper, first_arm_servo: Servo, second_arm_servo: Servo, electromagnet: ElectroMagnet):
         """
         Initialize class.
 
@@ -17,6 +19,7 @@ class RobotArm(object):
         :param stepper: Stepper class of the stepper motor that controls the arm
         :param first_arm_servo: Servo class of the servo motor controlling the first arm
         :param second_arm_servo: Servo class of the servo motor controlling the second arm
+        :param electromagnet: ElectroMagnet class of the electormagnet attached to the robot arm
         """
         self.first_arm_length = first_arm_length
         self.second_arm_length = second_arm_length
@@ -27,6 +30,8 @@ class RobotArm(object):
 
         self.first_arm_servo = first_arm_servo
         self.second_arm_servo = second_arm_servo
+
+        self.electromagnet = electromagnet
 
     def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[int, int]:
         """
@@ -44,7 +49,7 @@ class RobotArm(object):
         b = get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
 
         return (int(a), int(b))
-    
+
     def get_stepper_steps(self, target_angle: float) -> int:
         """
         Get how many steps the stepper motor should do to reach desired robot arm angle to board.
@@ -79,4 +84,3 @@ class RobotArm(object):
         a, b = self.get_servo_angles(target_dist, target_height)
         self.first_arm_servo.set_angle(a)
         self.second_arm_servo.set_angle(b)
-

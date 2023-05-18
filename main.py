@@ -5,7 +5,7 @@ from src.constants import *
 from src.classes.motors.servo import Servo
 from src.classes.motors.stepper import Stepper
 
-from classes.chess.robotarm import RobotArm
+from classes.robotarm.robotarm import RobotArm
 
 
 if __name__ == "__main__":
