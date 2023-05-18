@@ -4,6 +4,7 @@ from src.constants import *
 
 from src.classes.motors.servo import Servo
 from src.classes.motors.stepper import Stepper
+from src.classes.robotarm.electromagnet import ElectroMagnet
 
 from classes.robotarm.robotarm import RobotArm
 
@@ -18,7 +19,9 @@ if __name__ == "__main__":
     while not detector.is_pressed:
         stepper.rotate_steps(1)
 
-    arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo)
+    magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM)
+
+    arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo, magnet)
 
     import time
     while True:
