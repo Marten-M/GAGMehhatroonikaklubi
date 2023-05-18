@@ -18,7 +18,7 @@ def get_position_from_coordinates(x: int, y: int) -> str:
     """
     Get position from given integer coordinates.
 
-    a1 is defines with coordinates (0, 0)
+    a1 is defined with coordinates (0, 0)
 
     :param x: x coordinate on chess board
     :param y: y coordinate on chess board.
