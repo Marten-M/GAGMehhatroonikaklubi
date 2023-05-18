@@ -2,17 +2,17 @@
 
 from typing import Tuple
 
-from .board import Board
-from .controller import Controller
-from .piece import ChessPiece
+from .chessboard.board import Board
+from .controller.controller import Controller
+from .chessboard.piece import ChessPiece
 
-from ..robotarm.robotarm import RobotArm
+from .robotarm.robotarm import RobotArm
 
 from ...lib.chessmovehelperfunctions import get_coordinates_from_position
 from ...lib.mathfunctions import calc_vector_length, arctan
 
 
-class Game(object):
+class ChessRobot(object):
     def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller):
         """
         Initialize Game class.

@@ -2,9 +2,9 @@
 from typing import List
 
 from .piece import ChessPiece
-from .controller import Controller
+from ..controller.controller import Controller
 
-from ...lib.chessmovehelperfunctions import get_position_from_coordinates, get_coordinates_from_position
+from ....lib.chessmovehelperfunctions import get_position_from_coordinates, get_coordinates_from_position
 
 chess_board = List[List[str]]
 

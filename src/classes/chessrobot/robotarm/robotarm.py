@@ -1,9 +1,10 @@
 """Robot arm class file."""
 from typing import Tuple
-from ...lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin
 
-from ..motors.stepper import Stepper
-from ..motors.servo import Servo
+from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin
+
+from ...motors.stepper import Stepper
+from ...motors.servo import Servo
 
 from .electromagnet import ElectroMagnet
 
