@@ -3,26 +3,46 @@
 from typing import Tuple
 
 from .board import Board
+from .controller import Controller
+from .piece import ChessPiece
+
 from ..robotarm.robotarm import RobotArm
 
-from ...lib.chessmovehelperfunctions import get_coordinates_from_move
+from ...lib.chessmovehelperfunctions import get_coordinates_from_position
 from ...lib.mathfunctions import calc_vector_length, arctan
 
+
 class Game(object):
-    def __init__(self, arm: RobotArm, board: Board, offset_angle: float, board_distance: float, magnet_pull_height: float):
+    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller):
         """
         Initialize Game class.
 
         :param arm: RobotArm that moves the pieces.
+        :param default_arm_position: the default position of the arm.
         :param board: Board class describing the state of the chess board.
         :param offset_angle: how many degrees the arm is offset from the center of the board when it is in position zero.
         :param board_distance: how far away the board is from the robot arm in cm
-        :param magnet_pull_height: how far away (in cm) the magnet should be from the top of the button in order to pull it
+        :param horizontal_dist_to_black_removed: horizontal distance to removed black pieces section's edge in cm
+        :param vertical_dist_to_black_removed: vertical distance to removed black pieces section's edge in cm
+        :param horizontal_dist_to_white_removed: horizontal distance to removed white pieces section's edge in cm
+        :param vertical_dist_to_white_removed: vertical distance to removed white pieces section's edge in cm
+        :param controller: Controller object for selecting and making moves
         """
         self.arm = arm
         self.board = board
+        self.controller = controller
+    
         self.arm_zero_position_offset = offset_angle
         self.arm_distance_to_board = board_distance
+
+        self.horizontal_distance_to_black_removed = horizontal_dist_to_black_removed
+        self.vertical_distance_to_black_removed = vertical_dist_to_black_removed
+
+        self.horizontal_distance_to_white_removed = horizontal_dist_to_white_removed
+        self.vertical_distance_to_white_removed = vertical_dist_to_white_removed
+
+        self.default_arm_position = default_arm_position
+
 
     def get_robot_arm_parameters(self, target_position: str, target_height: float) -> Tuple[float, float, float]:
         """
@@ -33,22 +53,117 @@ class Game(object):
 
         :return: tuple of floats indicating the `RobotArm.move_arm_to_position` function parameters
         """
-        x, y = get_coordinates_from_move(target_position)
+        if target_position[0] != "O":
+            x, y = get_coordinates_from_position(target_position)
 
-        vertical_distance = self.arm_distance_to_board + self.board.chess_tile_side_length * (0.5 + (7 - y))
-        
-        x_from_center = 3 - x if x <= 3 else 3 - (7 - x)
-        horizontal_distance = self.board.chess_tile_side_length * (0.5 + x_from_center)
+            vertical_distance = self.arm_distance_to_board + self.board.chess_tile_side_length * (0.5 + (7 - y))
+            
+            x_from_center = 3 - x if x <= 3 else 3 - (7 - x)
+            horizontal_distance = self.board.chess_tile_side_length * (0.5 + x_from_center)
 
-        total_dist = calc_vector_length(horizontal_distance, vertical_distance)
+            total_dist = calc_vector_length(horizontal_distance, vertical_distance)
 
-        angle = arctan(horizontal_distance / vertical_distance)
-        if x >= 4:
-            angle *= 2
-
-        angle += self.arm_zero_position_offset
+            angle = 90 - arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
+            
+            if x >= 4:
+                angle += 90
+        else:
+            color = 1 if target_position[1] == "W" else 0
+            target_position = target_position[2:]
+            x, y = get_coordinates_from_position(target_position)
+            if color:
+                vertical_distance = self.vertical_distance_to_white_removed + self.board.chess_tile_side_length * (0.5 + (7 - y))
+                horizontal_distance = self.horizontal_distance_to_white_removed + self.board.chess_tile_side_length * (0.5 + (1 - x))
+                angle = 90 - arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
+            else:
+                vertical_distance = self.vertical_distance_to_black_removed + self.board.chess_tile_side_length * (0.5 + (7 - y))
+                horizontal_distance = self.horizontal_distance_to_black_removed + self.board.chess_tile_side_length * (0.5 + x)
+                angle = 90 - arctan(horizontal_distance / vertical_distance) + 90 + self.arm_zero_position_offset
+            
+            total_dist = calc_vector_length(horizontal_distance, vertical_distance)
 
         return (angle, total_dist, target_height)
 
-    def remove_piece_from_board()       
+    def move_piece(self, starting_position: str, ending_position: str):
+        """
+        Move a piece from one position to another.
 
+        It is expected that the ending position is not occupied and the starting position is and that the robot arm is lifted up in the beginning.
+
+        :param starting_position: starting position of piece to move.
+        :param ending_position: ending position of piece to move.
+        """
+        piece = self.board.get_piece(starting_position)
+        # pick up the piece
+        self.pick_up_piece(piece)
+        self.board.set_position_value(None, starting_position)
+        # place the piece
+        self.place_piece(piece, ending_position)
+        self.board.set_position_value(piece, ending_position)
+        piece.position = ending_position
+
+    def pick_up_piece(self, piece: ChessPiece):
+        """
+        Pick up a piece and move robot arm to default position.
+
+        :param piece: Chess piece to pick up
+        """
+        params = self.get_robot_arm_parameters(piece.position, piece.height + self.arm.electromagnet.pull_distance)
+        self.arm.move_arm_to_position(*params)
+        self.arm.electromagnet.pull()
+        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
+        self.arm.move_arm_to_position(*self.default_arm_position)
+
+    def place_piece(self, piece: ChessPiece, target_position: str):
+        """
+        Place a piece on the board and move the arm to default position.
+
+        :param piece: piece to place that robot is currently holding
+        :param target_position: target position to move the piece to
+        """
+        params = self.get_robot_arm_parameters(target_position, piece.height + self.arm.electromagnet.push_distance)
+        self.arm.move_arm_to_position(*params)
+        self.arm.electromagnet.push()
+        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
+        self.arm.electromagnet.disable()
+        self.arm.move_arm_to_position(*self.default_arm_position)
+
+    def get_move(self) -> Tuple[str, str]:
+        """
+        Get a move the player makes.
+
+        :return: tuple of positions in the form (start_position, end_position)
+        """
+        pass
+    
+    def get_promotion_piece_selection(self, color: int) -> ChessPiece:
+        """
+        Get the piece that is selected for pawn promotion.
+
+        :param color: color of the player that is getting their pawn promotoed
+        """
+        pass
+
+    def make_chess_move(self, starting_position: str, ending_position: str):
+        """
+        Make a legal chess move from one position to another.
+
+        :param starting_position: starting position of the piece to move
+        :param ending_position: ending position of the piece to move
+        """
+        ending_piece = self.board.get_piece(ending_position)
+        if ending_piece is not None:
+            removed_piece_destination = self.board.get_first_free_position(ending_piece.color)
+            self.move_piece(ending_piece.position, removed_piece_destination)
+        
+        starting_piece = self.board.get_piece(starting_position)
+        x, y = get_coordinates_from_position(ending_position)
+        
+        # Check if it is a pawn making a promotion
+        if starting_piece.name.upper() == 'P' and y == 7:
+            destination = self.board.get_first_free_position(starting_piece.color)
+            self.move_piece(starting_piece.position, destination)
+            new_piece = self.get_promotion_piece_selection()
+            self.move_piece(new_piece.position, ending_position)
+        else:
+            self.move_piece(starting_piece, ending_position)
