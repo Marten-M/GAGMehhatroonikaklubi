@@ -43,7 +43,6 @@ class ChessRobot(object):
 
         self.default_arm_position = default_arm_position
 
-
     def get_robot_arm_parameters(self, target_position: str, target_height: float) -> Tuple[float, float, float]:
         """
         Get parameters to pass into robot arm in order to move the arm to correct position.

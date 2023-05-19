@@ -34,6 +34,7 @@ class Game(object):
         self.last_selection = "d2"
         self.last_move = []
         self.possible_moves = []
+        self.possible_selections = []
 
         self.selection_color = selection_color
         self.last_move_color = last_move_color
@@ -43,7 +44,9 @@ class Game(object):
 
         self.selected = False # Tracking whether a square has been selected or not
         self.player_color = 1
-    
+
+        self.selecting_promotion = False
+
     def run(self):
         """
         Run the chess game.
@@ -101,7 +104,7 @@ class Game(object):
         :return: boolean indicating if selecting a piece is legal
         """
         return self.robot.board.get_piece(self.cur_selection).color == color
-    
+
     def make_move(self, starting_position: str, ending_position: str, promotion_piece: ChessPiece = None) -> bool:
         """
         Make a given move on the board.
@@ -116,9 +119,41 @@ class Game(object):
         x, y = get_coordinates_from_position(ending_position)
         chess_move = get_move(starting_position, ending_position, promotion_piece)
         if piece.name.upper() == 'P' and y == 7: # Player is promoting
-            promotion_piece = self.robot.get_promotion_piece_selection(self.player_color)
+            promotion_piece = self.robot.board.get_piece(self.get_promotion_piece_selection(self.player_color))
         self.robot.make_chess_move(starting_position, ending_position, promotion_piece)
         self.game.push(chess_move)
+
+    def get_promotion_piece_selection(self, color: int) -> str:
+        """
+        Get the promotion piece selection for a given player.
+
+        :param color: color of player who chooses a promotable piece
+        
+        :return: position of piece that was chosen
+        """
+        self.selecting_promotion = True
+        pieces = self.robot.board.get_possible_pieces_for_promotion(self.player_color)
+        self.possible_selections = []
+        for key in pieces:
+            for piece in pieces[key]:
+                self.possible_selections.append(piece.position)
+        while True:
+            action = self.get_input()
+            x, y = get_coordinates_from_position(self.cur_selection)
+            if action == "UP":
+                y = min(7, y + 1)
+            elif action == "DOWN":
+                y = max(0, y - 1)
+            elif action == "LEFT":
+                x = 0
+            elif action == "RIGHT":
+                x = 1
+            elif action == "ENTER":
+                if self.cur_selection in self.possible_selections:
+                    return self.cur_selection
+
+            self.cur_selection = get_position_from_coordinates(x, y)
+            self.color_squares()
 
     def make_engine_move(self):
         """
@@ -129,15 +164,15 @@ class Game(object):
         if move.promotion is not None:
             possible_pieces = self.robot.board.get_possible_pieces_for_promotion(0)
             if possible_pieces.get('Q', None) is not None:
-                piece = possible_pieces['Q']
+                piece = possible_pieces['Q'][0]
             elif possible_pieces.get('R', None) is not None:
-                piece = possible_pieces['R']
+                piece = possible_pieces['R'][0]
             elif possible_pieces.get('B', None) is not None:
-                piece = possible_pieces['B']
+                piece = possible_pieces['B'][0]
             elif possible_pieces.get('N', None) is not None:
-                piece = possible_pieces['N']
+                piece = possible_pieces['N'][0]
             move.promotion = get_piece_type_from_name(piece.name)
-        
+
         from_square = get_position_from_square_number(move.from_square)
         to_square = get_position_from_square_number(move.to_square)
         self.make_move(from_square, to_square, piece)
@@ -170,7 +205,7 @@ class Game(object):
         """
         square = chess.square(*get_coordinates_from_position(self.cur_selection))
         self.possible_moves = []
-        for move in self.board.legal_moves:
+        for move in self.game.legal_moves:
             if move.from_square == square:
                 self.possible_moves.append(get_position_from_square_number(move.to_square))
 
@@ -181,6 +216,10 @@ class Game(object):
         self.robot.board.color_boards()
         self.robot.board.set_squares_color(self.last_move, self.last_move_color)
         self.robot.board.set_squares_color(self.possible_moves, self.possible_moves_color)
-        if self.selected:
+
+        for piece in self.possible_selections:
+            self.robot.board.set_color_square(piece.position, self.possible_moves_color)
+
+        if not self.selecting_promotion and self.selected:
             self.robot.board.set_color_square(self.last_selection, self.possible_moves_color)
         self.robot.board.set_color_square(self.selection)

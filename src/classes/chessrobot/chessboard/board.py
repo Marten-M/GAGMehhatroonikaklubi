@@ -210,8 +210,8 @@ class Board(object):
             for x in range(8):
                 piece = removed_board[y][x]
                 if piece.name.upper() in "QRBN":
-                    dic[piece.name.upper()] = piece
-        
+                    dic[piece.name.upper()] = dic.get(piece.name.upper(), []).append(piece)
+
         return dic
 
     def __getitem__(self, key: int) -> List[str]:
