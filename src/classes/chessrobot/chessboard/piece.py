@@ -8,6 +8,7 @@ class ChessPiece:
     position: str
     height: float
     color: int
+    original_position: str
 
     def __repr__(self) -> str:
         """Represent the class when printed out."""

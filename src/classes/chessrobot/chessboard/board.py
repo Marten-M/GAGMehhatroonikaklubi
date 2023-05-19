@@ -56,7 +56,7 @@ class Board(object):
                     color = 1 if piece[0].upper() == 'W' else 0
                     name = piece[1].upper()
                     position = get_position_from_coordinates(x, y)
-                    board[y][x] = ChessPiece(name, position, self.heights[name], color)
+                    board[y][x] = ChessPiece(name, position, self.heights[name], color, position)
                 else:
                     board[y][x] = None
 
@@ -77,7 +77,7 @@ class Board(object):
                 if piece:
                     name = piece[1].upper()
                     position = f"O{'W' if color else 'B'}" + get_position_from_coordinates(x, y)
-                    board[y][x] = ChessPiece(name, position, self.heights[name], color)
+                    board[y][x] = ChessPiece(name, position, self.heights[name], color, position)
                 else:
                     board[y][x] = None
         
