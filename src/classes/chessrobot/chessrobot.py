@@ -13,7 +13,7 @@ from ...lib.mathfunctions import calc_vector_length, arctan
 
 
 class ChessRobot(object):
-    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller):
+    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float):
         """
         Initialize Game class.
 
@@ -30,7 +30,6 @@ class ChessRobot(object):
         """
         self.arm = arm
         self.board = board
-        self.controller = controller
     
         self.arm_zero_position_offset = offset_angle
         self.arm_distance_to_board = board_distance

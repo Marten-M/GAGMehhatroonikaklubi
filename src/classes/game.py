@@ -12,13 +12,14 @@ from .lib.lcdscreen import LCDScreen
 
 from .chessrobot.chessrobot import ChessRobot
 from .chessrobot.chessboard.piece import ChessPiece
+from .chessrobot.controller.controller import Controller
 
 from ..lib.chessmovehelperfunctions import get_coordinates_from_position, get_position_from_coordinates, get_position_from_square_number, get_move, get_piece_type_from_name
 
 color = Tuple[int, int, int]
 
 class Game(object):
-    def __init__(self, robot: ChessRobot, engine: ChessEngine, screen: LCDScreen, selection_color: color, last_move_color: color, possible_moves_color: color):
+    def __init__(self, robot: ChessRobot, engine: ChessEngine, screen: LCDScreen, controller: Controller, selection_color: color, last_move_color: color, possible_moves_color: color):
         """
         Initialize chess game.
 
@@ -32,6 +33,7 @@ class Game(object):
         self.game = chess.Board()
         self.engine = engine
         self.screen = screen
+        self.controller = controller
 
         self.cur_selection = "d2"
         self.last_selection = "d2"
@@ -55,6 +57,7 @@ class Game(object):
         Run the chess game.
         """
         while True:
+            # action = self.controller.get_input()
             action = self.get_input()
             x, y = get_coordinates_from_position(self.cur_selection)
             """
