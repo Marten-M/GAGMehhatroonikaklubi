@@ -1,6 +1,6 @@
 """Game class file."""
 
-from typing import Tuple, Dict
+from typing import Tuple
 
 from .chessboard.board import Board
 from .controller.controller import Controller

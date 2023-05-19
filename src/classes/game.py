@@ -8,6 +8,8 @@ from typing import Tuple
 
 from .engine import ChessEngine
 
+from .lib.lcdscreen import LCDScreen
+
 from .chessrobot.chessrobot import ChessRobot
 from .chessrobot.chessboard.piece import ChessPiece
 
@@ -16,7 +18,7 @@ from ..lib.chessmovehelperfunctions import get_coordinates_from_position, get_po
 color = Tuple[int, int, int]
 
 class Game(object):
-    def __init__(self, robot: ChessRobot, engine: ChessEngine, selection_color: color, last_move_color: color, possible_moves_color: color):
+    def __init__(self, robot: ChessRobot, engine: ChessEngine, screen: LCDScreen, selection_color: color, last_move_color: color, possible_moves_color: color):
         """
         Initialize chess game.
 
@@ -29,6 +31,7 @@ class Game(object):
         self.robot = robot
         self.game = chess.Board()
         self.engine = engine
+        self.screen = screen
 
         self.cur_selection = "d2"
         self.last_selection = "d2"
@@ -94,6 +97,8 @@ class Game(object):
             if not self.selected:
                 self.update_possible_moves()
             self.color_squares()
+            if self.game.is_game_over():
+                return
 
     def selection_legal(self, color: int) -> bool:
         """

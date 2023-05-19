@@ -2,12 +2,17 @@ from gpiozero import Button
 
 from src.constants import *
 
-from src.classes.motors.servo import Servo
-from src.classes.motors.stepper import Stepper
-from src.classes.robotarm.electromagnet import ElectroMagnet
+from src.classes.lib.motors.servo import Servo
+from src.classes.lib.motors.stepper import Stepper
+from src.classes.lib.ledstrip import LEDStrip
 
-from classes.robotarm.robotarm import RobotArm
-
+from src.classes.chessrobot.robotarm.electromagnet import ElectroMagnet
+from src.classes.chessrobot.robotarm.robotarm import RobotArm
+from src.classes.chessrobot.controller.controller import Controller
+from src.classes.chessrobot.chessboard.board import Board
+from src.classes.chessrobot.chessrobot import ChessRobot
+from src.classes.engine import ChessEngine
+from src.classes.game import Game
 
 if __name__ == "__main__":
     first_servo = Servo(FIRST_SERVO_PIN)
@@ -23,8 +28,17 @@ if __name__ == "__main__":
 
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo, magnet)
 
-    import time
-    while True:
-        arm.move_arm_to_position(12, 20, 10)
-        time.sleep(2)
-        arm.move_arm_to_position(20, 40, 5)
+    main_led_strip = LEDStrip(MAIN_BOARD_LED_PIN, MAIN_BOARD_PIXEL_COUNT)
+    whites_led_strip = LEDStrip(WHITES_LED_PIN, WHITES_LED_COUNT)
+    blacks_led_strip = LEDStrip(BLACKS_LED_PIN, BLACKS_LED_COUNT)
+
+    board = Board(INITIAL_BOARD_STATE, INITIAL_WHITE, INITIAL_BLACK, PIECE_HEIGHTS_CM, CHESS_TILE_SIZE_CM, main_led_strip, whites_led_strip, blacks_led_strip, COLORS["white"], COLORS["magenta"])
+
+    controller = Controller()
+
+    robot = ChessRobot(arm, DEFAULT_ROBOT_ARM_POSITION, board, STEPPER_ZERO_POSITION_ANGLE_TO_CHESS_BOARD_CENTER_DEGREES, ROBOT_ARM_DISTANCE_TO_BOARD_CM, HORIZONTAL_DIST_TO_REMOVED_BLACKS, VERTICAL_DIST_TO_REMOVED_BLACKS, HORIZONTAL_DIST_TO_REMOVED_WHITES, VERTICAL_DIST_TO_REMOVED_WHITES, controller)
+
+    engine = ChessEngine(ENGINE_PATH, ENGINE_LEVEL)
+
+    game = Game(robot, engine, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
+    game.run()
