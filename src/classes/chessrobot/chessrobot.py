@@ -1,6 +1,6 @@
 """Game class file."""
 
-from typing import Tuple
+from typing import Tuple, Dict
 
 from .chessboard.board import Board
 from .controller.controller import Controller
@@ -128,42 +128,64 @@ class ChessRobot(object):
         self.arm.electromagnet.disable()
         self.arm.move_arm_to_position(*self.default_arm_position)
 
-    def get_move(self) -> Tuple[str, str]:
+    def castle(self, starting_position: str, ending_position: str) -> bool:
         """
-        Get a move the player makes.
+        Castle the king if that was the move that was made.
 
-        :return: tuple of positions in the form (start_position, end_position)
-        """
-        pass
-    
-    def get_promotion_piece_selection(self, color: int) -> ChessPiece:
-        """
-        Get the piece that is selected for pawn promotion.
+        It is assumed castling is possible and the starting and ending position are those of the king.
 
-        :param color: color of the player that is getting their pawn promotoed
+        :param starting_position: starting position of the king
+        :param ending_position: ending position of the king
+        
+        :return: whether the castling was done
         """
-        pass
+        if starting_position == "e1": # White castled
+            if ending_position == "g1": # Short castle
+                rook = self.board.get_piece("h1")
+                self.move_piece(starting_position, ending_position)
+                self.move_piece(rook.position, "f1")
+                return True
+            elif ending_position == "c1": # Long castle
+                rook = self.board.get_piece("a1")
+                self.move_piece(starting_position, ending_position)
+                self.move_piece(rook.position, "d1")
+                return True
+        elif starting_position == "e8": # Black castled
+            if ending_position == "g8":
+                rook = self.board.get_piece("h8")
+                self.move_piece(starting_position, ending_position)
+                self.move_piece(rook.position, "f8")
+                return True
+            elif ending_position == "c8": # Long castle
+                rook = self.board.get_piece("a8")
+                self.move_piece(starting_position, ending_position)
+                self.move_piece(rook.position, "d8")
+                return True
 
-    def make_chess_move(self, starting_position: str, ending_position: str):
+        return False
+
+    def make_chess_move(self, starting_position: str, ending_position: str, promotion_piece: ChessPiece=None):
         """
         Make a legal chess move from one position to another.
 
         :param starting_position: starting position of the piece to move
         :param ending_position: ending position of the piece to move
+        :param promotion_piece: piece that was selected for promotion (if there was a promotion)
         """
         ending_piece = self.board.get_piece(ending_position)
         if ending_piece is not None:
             removed_piece_destination = self.board.get_first_free_position(ending_piece.color)
             self.move_piece(ending_piece.position, removed_piece_destination)
-        
+
         starting_piece = self.board.get_piece(starting_position)
-        x, y = get_coordinates_from_position(ending_position)
-        
+
         # Check if it is a pawn making a promotion
-        if starting_piece.name.upper() == 'P' and y == 7:
+        if promotion_piece is not None:
             destination = self.board.get_first_free_position(starting_piece.color)
             self.move_piece(starting_piece.position, destination)
-            new_piece = self.get_promotion_piece_selection()
-            self.move_piece(new_piece.position, ending_position)
+            self.move_piece(promotion_piece.position, ending_position)
+        elif starting_piece.name.upper() == 'K':
+            if not self.castle(starting_position, ending_position):
+                self.move_piece(starting_position, ending_position)
         else:
             self.move_piece(starting_piece, ending_position)

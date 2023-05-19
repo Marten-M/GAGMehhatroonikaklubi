@@ -1,6 +1,7 @@
 """Constants file."""
 from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
+import chess
 
 FIRST_SERVO_PIN = 15
 SECOND_SERVO_PIN = 18
@@ -32,3 +33,12 @@ PIECE_HEIGHTS_CM = {
 }
 
 AngularServo.pin_factory = PiGPIOFactory()
+
+
+PIECE_NAME_TYPE_DICT = {
+    'P': chess.PAWN,
+    'N': chess.KNIGHT,
+    'B': chess.BISHOP,
+    'Q': chess.QUEEN,
+    'K': chess.KING
+}

@@ -1,5 +1,5 @@
 """Chess board class file."""
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 from .piece import ChessPiece
 
@@ -195,6 +195,24 @@ class Board(object):
                         self.set_color_square(square, self.white_square_color)
                     else:
                         self.set_color_square(square, self.black_square_color)
+
+    def get_possible_pieces_for_promotion(self, color: int) -> Dict[str, ChessPiece]:
+        """
+        Get possible pieces to promote to for given color.
+
+        :param color: color of player who is promoting their pawn
+
+        :return: dictionary mapping piece names to their ChessPiece counterparts
+        """
+        dic = dict()
+        removed_board = self.removed_whites if color else self.removed_blacks
+        for y in range(2):
+            for x in range(8):
+                piece = removed_board[y][x]
+                if piece.name.upper() in "QRBN":
+                    dic[piece.name.upper()] = piece
+        
+        return dic
 
     def __getitem__(self, key: int) -> List[str]:
         """
