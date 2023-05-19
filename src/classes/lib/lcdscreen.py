@@ -21,14 +21,17 @@ class LCDScreen(object):
         self.lcd = CharLCD(cols=columns, rows=rows, pin_rs=rs_pin, pin_rw=rw_pin, pin_e=e_pin, pins_data=data_pins, numbering_mode=numbering_mode)
         self.clear()
 
-    def write(self, text: str):
+    def write(self, text: str, clear: bool=True):
         """
         Write text to the LCD display.
 
         Lines that are too long automatically continue on next line
 
-        :param text: text to write. Use '\n' to write to new line.
+        :param text: text to write. Use '\n' to write to new line
+        :param clear: whether to clear the screen before writing.
         """
+        if clear:
+            self.clear()
         self.lcd.write_string(text)
     
     def clear(self):

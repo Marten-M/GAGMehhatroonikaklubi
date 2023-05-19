@@ -9,6 +9,7 @@ from src.classes.lib.ledstrip import LEDStrip
 from src.classes.chessrobot.robotarm.electromagnet import ElectroMagnet
 from src.classes.chessrobot.robotarm.robotarm import RobotArm
 from src.classes.chessrobot.controller.controller import Controller
+from src.classes.lib.lcdscreen import LCDScreen
 from src.classes.chessrobot.chessboard.board import Board
 from src.classes.chessrobot.chessrobot import ChessRobot
 from src.classes.engine import ChessEngine
@@ -40,5 +41,7 @@ if __name__ == "__main__":
 
     engine = ChessEngine(ENGINE_PATH, ENGINE_LEVEL)
 
-    game = Game(robot, engine, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
+    screen = LCDScreen(LCD_SCREEN_COLUMNS, LCD_SCREEN_ROWS, LCD_RS_PIN, LCD_RW_PIN, LCD_E_PIN, LCD_DATA_PINS)
+
+    game = Game(robot, engine, screen, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
     game.run()

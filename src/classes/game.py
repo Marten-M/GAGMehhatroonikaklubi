@@ -74,6 +74,10 @@ class Game(object):
             ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
             —————————————————————————————-----
             """
+            if not self.selected:
+                self.screen.write("Vali nupp mida liigutada")
+            else:
+                self.screen.write("Vali ruut kuhu nupp käia")
             if action == "UP":
                 y = min(7, y + 1)
             elif action == "DOWN":
@@ -92,12 +96,20 @@ class Game(object):
                 else:
                     if self.cur_selection in self.possible_moves:
                         self.make_move(self.last_selection, self.cur_selection)
+                        self.screen.write("Vastane käib...")
                         self.make_engine_move()
             self.cur_selection = get_position_from_coordinates(x, y)
             if not self.selected:
                 self.update_possible_moves()
             self.color_squares()
             if self.game.is_game_over():
+                winner = self.game.outcome().winner
+                if winner is None:
+                    self.screen.write("Viik!")
+                elif winner: # White won
+                    self.screen.write("Valge võitis!")
+                else:
+                    self.screen.write("Must võitis!")
                 return
 
     def selection_legal(self, color: int) -> bool:
@@ -125,6 +137,7 @@ class Game(object):
         chess_move = get_move(starting_position, ending_position, promotion_piece)
         if piece.name.upper() == 'P' and y == 7: # Player is promoting
             promotion_piece = self.robot.board.get_piece(self.get_promotion_piece_selection(self.player_color))
+        self.screen.write("Sina käid...")
         self.robot.make_chess_move(starting_position, ending_position, promotion_piece)
         self.game.push(chess_move)
 
@@ -136,8 +149,9 @@ class Game(object):
         
         :return: position of piece that was chosen
         """
+        self.screen.write("Vali nupp, milleks ettur muuta")
         self.selecting_promotion = True
-        pieces = self.robot.board.get_possible_pieces_for_promotion(self.player_color)
+        pieces = self.robot.board.get_possible_pieces_for_promotion(color)
         self.possible_selections = []
         for key in pieces:
             for piece in pieces[key]:
