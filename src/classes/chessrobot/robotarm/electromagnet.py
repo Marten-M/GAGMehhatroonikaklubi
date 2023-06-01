@@ -1,6 +1,9 @@
 """ElectroMagnet class file."""
 
 from gpiozero import OutputDevice
+from gpiozero.pins.native import NativeFactory
+OutputDevice.pin_factory = NativeFactory()
+print("aite")
 
 
 class ElectroMagnet(object):
@@ -17,6 +20,7 @@ class ElectroMagnet(object):
         self.push = OutputDevice(push_pin)
         self.pull_distance = magnet_pull_distance
         self.push_distance = magnet_push_distance
+        
 
     def disable(self):
         """
