@@ -30,10 +30,8 @@ if __name__ == "__main__":
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo, magnet)
 
     main_led_strip = LEDStrip(MAIN_BOARD_LED_PIN, MAIN_BOARD_PIXEL_COUNT)
-    whites_led_strip = LEDStrip(WHITES_LED_PIN, WHITES_LED_COUNT)
-    blacks_led_strip = LEDStrip(BLACKS_LED_PIN, BLACKS_LED_COUNT)
 
-    board = Board(INITIAL_BOARD_STATE, INITIAL_WHITE, INITIAL_BLACK, PIECE_HEIGHTS_CM, CHESS_TILE_SIZE_CM, main_led_strip, whites_led_strip, blacks_led_strip, COLORS["white"], COLORS["magenta"])
+    board = Board(INITIAL_BOARD_STATE, INITIAL_WHITE, INITIAL_BLACK, PIECE_HEIGHTS_CM, CHESS_TILE_SIZE_CM, main_led_strip, COLORS["white"], COLORS["magenta"])
 
     controller = Controller(CONTROLLER_UP_PIN, CONTROLLER_DOWN_PIN, CONTROLLER_LEFT_PIN, CONTROLLER_RIGHT_PIN, CONTROLLER_BACK_PIN, CONTROLLER_ENTER_PIN)
 

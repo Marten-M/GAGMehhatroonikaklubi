@@ -10,7 +10,7 @@ from ....lib.chessmovehelperfunctions import get_position_from_coordinates, get_
 chess_board = List[List[str]]
 
 class Board(object):
-    def __init__(self, initial_main_state: chess_board, initial_removed_whites_state: chess_board, initial_removed_blacks_state: chess_board, piece_heights: dict, chess_tile_size: float, main_led_strip: LEDStrip, whites_led_strip: LEDStrip, blacks_led_strip: LEDStrip, white: Tuple[int, int, int], black: Tuple[int, int, int]):
+    def __init__(self, initial_main_state: chess_board, initial_removed_whites_state: chess_board, initial_removed_blacks_state: chess_board, piece_heights: dict, chess_tile_size: float, main_led_strip: LEDStrip, white: Tuple[int, int, int], black: Tuple[int, int, int]):
         """
         Initialize class.
 
@@ -20,8 +20,6 @@ class Board(object):
         :param piece_heights: heights of the pieces.
         :param chess_tile_size: size of a chess tile's side in cm
         :param main_led_strip: LEDStrip that lights up the squares beneath the main chess board
-        :param whites_led_strip: LEDStrip that lights up the squares beneath the removed white pieces
-        :param blacks_led_strip: LEDStrip that lights up the squares beneath the removed black pieces
         :param white: RGB color code of the white squares
         :param black: RGB color code of the black squares
         """
@@ -33,8 +31,6 @@ class Board(object):
         self.removed_blacks = self.initialize_removed_board(initial_removed_blacks_state)
 
         self.main_board_led_strip = main_led_strip
-        self.removed_whites_led_strip = whites_led_strip
-        self.removed_blacks_led_strip = blacks_led_strip
 
         self.black_square_color = black
         self.white_square_color = white
@@ -146,6 +142,11 @@ class Board(object):
             start_led = x * 8 + y
         
         start_led *= 3
+        if square[0].upper() == 'O':
+            if square[1].upper() == 'W':
+                start_led += 192
+            else:
+                start_led += 240
         return (start_led, start_led + 1, start_led + 2)
 
     def set_color_square(self, square: str, color: Tuple[int, int, int]):
@@ -153,19 +154,11 @@ class Board(object):
         Set color of a square.
 
         :param square: square who'se color to set in short chess nomenclature (a1, d4, OBa2, etc)
-        :param color: RGB color code to set the squares color to
+        :param color: RGB color code to set the square's color to
         """
-        squares = self.get_square_leds(square)
-        if square[0].upper() == 'O':
-            if square[1].upper() == 'W':
-                for pixel in squares:
-                    self.removed_blacks_led_strip.set_pixel_color(pixel, color)
-            else:
-                for pixel in squares:
-                    self.removed_whites_led_strip.set_pixel_color(pixel, color)
-        else:
-            for pixel in squares:
-                self.main_board_led_strip.set_pixel_color(pixel, color)
+        pixels = self.get_square_leds(square)
+        for pixel in pixels:
+            self.main_board_led_strip.set_pixel_color(pixel, color)
 
     def set_squares_color(self, squares: List[str], color: Tuple[int, int, int]):
         """
@@ -179,8 +172,7 @@ class Board(object):
 
     def color_boards(self):
         """Color the chess board squares."""
-        self.removed_blacks_led_strip.set_strip_color(self.white_square_color)
-        self.removed_whites_led_strip.set_strip_color(self.white_square_color)
+        self.main_board_led_strip.set_strip_color(self.white_square_color)
 
         for y in range(8):
             for x in range(8):
