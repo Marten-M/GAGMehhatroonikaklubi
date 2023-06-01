@@ -27,8 +27,8 @@ class Board(object):
         self.chess_tile_side_length = chess_tile_size
         # Initialize boards
         self.main_board = self.initialize_main_board(initial_main_state)
-        self.removed_whites = self.initialize_removed_board(initial_removed_whites_state)
-        self.removed_blacks = self.initialize_removed_board(initial_removed_blacks_state)
+        self.removed_whites = self.initialize_removed_board(initial_removed_whites_state, 1)
+        self.removed_blacks = self.initialize_removed_board(initial_removed_blacks_state, 0)
 
         self.main_board_led_strip = main_led_strip
 

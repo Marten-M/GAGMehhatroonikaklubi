@@ -43,3 +43,4 @@ if __name__ == "__main__":
 
     game = Game(robot, engine, screen, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
     game.run()
+    
