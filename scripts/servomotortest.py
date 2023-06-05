@@ -21,5 +21,5 @@ if __name__ == "__main__":
         sleep(2)
         servo2.set_angle(0)
         sleep(2)
-        servo2.cur_angle(180)
+        servo2.set_angle(180)
         sleep(2)
