@@ -22,7 +22,7 @@ if __name__ == "__main__":
         CHESS_TILE_SIZE_CM,
         led_strip,
         COLORS["white"],
-        COLORS["black"]
+        COLORS["magenta"]
     )
     green = (0, 255, 0)
     sleep(3)
