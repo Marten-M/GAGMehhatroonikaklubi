@@ -12,8 +12,8 @@ from src.constants import *
 from time import sleep
 
 if __name__ == "__main__":
-    servo1 = Servo(FIRST_SERVO_PIN)
-    servo2 = Servo(SECOND_SERVO_PIN)
+    servo1 = Servo(FIRST_SERVO_PIN, SERVO_MIN_POSITION_PULSE_WIDTH_MS, SERVO_MAX_POSITION_PULSE_WIDTH_MS)
+    servo2 = Servo(SECOND_SERVO_PIN, SERVO_MIN_POSITION_PULSE_WIDTH_MS, SERVO_MAX_POSITION_PULSE_WIDTH_MS)
     while True:
         servo1.set_angle(0)
         sleep(2)
