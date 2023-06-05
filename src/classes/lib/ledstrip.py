@@ -28,6 +28,7 @@ class LEDStrip(object):
         :param color: RGB color code to set pixel to in the form (red, green, blue)
         """
         self.strip.setPixelColor(pixel, Color(*color))
+        self.strip.show()
 
     def set_strip_color(self, color: Tuple[int, int, int]):
         """
@@ -37,3 +38,4 @@ class LEDStrip(object):
         """
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, Color(*color))
+        self.strip.show()
