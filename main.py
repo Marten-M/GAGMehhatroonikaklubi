@@ -41,6 +41,6 @@ if __name__ == "__main__":
 
     screen = LCDScreen(LCD_SCREEN_COLUMNS, LCD_SCREEN_ROWS, LCD_RS_PIN, LCD_RW_PIN, LCD_E_PIN, LCD_DATA_PINS)
 
-    game = Game(robot, engine, screen, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
+    game = Game(robot, engine, screen,controller, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
     game.run()
     

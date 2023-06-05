@@ -11,5 +11,5 @@ class ChessEngine(object):
         :param engine_path: path to chess engine to use
         :param level: level of the chess engine to play against.
         """
-        self.engine = SimpleEngine(engine_path)
+        self.engine = SimpleEngine.popen_uci(engine_path)
         self.engine.configure({"Skill Level": level})

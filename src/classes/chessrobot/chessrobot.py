@@ -13,7 +13,7 @@ from ...lib.mathfunctions import calc_vector_length, arctan
 
 
 class ChessRobot(object):
-    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float):
+    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller):
         """
         Initialize Game class.
 
@@ -41,7 +41,7 @@ class ChessRobot(object):
         self.vertical_distance_to_white_removed = vertical_dist_to_white_removed
 
         self.default_arm_position = default_arm_position
-
+        self.controller = controller
     def get_robot_arm_parameters(self, target_position: str, target_height: float) -> Tuple[float, float, float]:
         """
         Get parameters to pass into robot arm in order to move the arm to correct position.
