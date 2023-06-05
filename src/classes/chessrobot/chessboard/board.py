@@ -135,12 +135,12 @@ class Board(object):
             x, y = get_coordinates_from_position(square[2:])
         else:
             x, y = get_coordinates_from_position(square)
-        
+
         if x % 2 == 0:
             start_led = 7 - y + x * 8
         else:
             start_led = x * 8 + y
-        
+
         start_led *= 3
         if square[0].upper() == 'O':
             if square[1].upper() == 'W':

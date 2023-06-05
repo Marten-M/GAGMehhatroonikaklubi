@@ -152,6 +152,7 @@ class Game(object):
         
         :return: position of piece that was chosen
         """
+        self.cur_selection = "OWa1"
         self.screen.write("Vali nupp, milleks ettur muuta")
         self.selecting_promotion = True
         pieces = self.robot.board.get_possible_pieces_for_promotion(color)
@@ -161,7 +162,7 @@ class Game(object):
                 self.possible_selections.append(piece.position)
         while True:
             action = self.get_input()
-            x, y = get_coordinates_from_position(self.cur_selection)
+            x, y = get_coordinates_from_position(self.cur_selection[2:])
             if action == "UP":
                 y = min(7, y + 1)
             elif action == "DOWN":
@@ -174,7 +175,7 @@ class Game(object):
                 if self.cur_selection in self.possible_selections:
                     return self.cur_selection
 
-            self.cur_selection = get_position_from_coordinates(x, y)
+            self.cur_selection = 'OW' + get_position_from_coordinates(x, y)
             self.color_squares()
 
     def make_engine_move(self):

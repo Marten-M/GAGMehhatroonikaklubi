@@ -16,8 +16,8 @@ from src.classes.engine import ChessEngine
 from src.classes.game import Game
 
 if __name__ == "__main__":
-    first_servo = Servo(FIRST_SERVO_PIN)
-    second_servo = Servo(SECOND_SERVO_PIN)
+    first_servo = Servo(FIRST_SERVO_PIN, SERVO_MIN_POSITION_PULSE_WIDTH_MS, SERVO_MAX_POSITION_PULSE_WIDTH_MS)
+    second_servo = Servo(SECOND_SERVO_PIN, SERVO_MIN_POSITION_PULSE_WIDTH_MS, SERVO_MAX_POSITION_PULSE_WIDTH_MS)
     
     stepper = Stepper(STEPPER_STEP_PIN, STEPPER_DIRECTION_PIN, STEPPER_STEP_DEGREES)
     # Zero the stepper motor
