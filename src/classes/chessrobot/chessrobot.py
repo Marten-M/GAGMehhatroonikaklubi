@@ -13,7 +13,7 @@ from ...lib.mathfunctions import calc_vector_length, arctan
 
 
 class ChessRobot(object):
-    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller):
+    def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller, piece_dropoff_height: float):
         """
         Initialize Game class.
 
@@ -27,6 +27,7 @@ class ChessRobot(object):
         :param horizontal_dist_to_white_removed: horizontal distance to removed white pieces section's edge in cm
         :param vertical_dist_to_white_removed: vertical distance to removed white pieces section's edge in cm
         :param controller: Controller object for selecting and making moves
+        :param piece_dropoff_height: how far away from the floor the piece should be dropped off when it is held in cm
         """
         self.arm = arm
         self.board = board
@@ -42,6 +43,9 @@ class ChessRobot(object):
 
         self.default_arm_position = default_arm_position
         self.controller = controller
+
+        self.piece_dropoff_height_offset = piece_dropoff_height
+
     def get_robot_arm_parameters(self, target_position: str, target_height: float) -> Tuple[float, float, float]:
         """
         Get parameters to pass into robot arm in order to move the arm to correct position.
@@ -119,9 +123,8 @@ class ChessRobot(object):
         :param piece: piece to place that robot is currently holding
         :param target_position: target position to move the piece to
         """
-        params = self.get_robot_arm_parameters(target_position, piece.height + self.arm.electromagnet.push_distance)
+        params = self.get_robot_arm_parameters(target_position, piece.height + self.piece_dropoff_height_offset)
         self.arm.move_arm_to_position(*params)
-        self.arm.electromagnet.push()
         self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
         self.arm.electromagnet.disable()
         self.arm.move_arm_to_position(*self.default_arm_position)
