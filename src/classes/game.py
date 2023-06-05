@@ -45,12 +45,12 @@ class Game(object):
         self.last_move_color = last_move_color
         self.possible_moves_color = possible_moves_color
 
+        self.selecting_promotion = False
         self.color_squares()
 
         self.selected = False # Tracking whether a square has been selected or not
         self.player_color = 1
 
-        self.selecting_promotion = False
 
     def run(self):
         """
