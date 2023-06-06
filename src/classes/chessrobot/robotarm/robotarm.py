@@ -84,6 +84,7 @@ class RobotArm(object):
         :param target_height: target height the arm should reach
         """
         steps = self.get_stepper_steps(target_stepper_angle)
+        print(steps)
         self.stepper.rotate_steps(steps)
         self.cur_angle += steps * self.stepper.step
 
