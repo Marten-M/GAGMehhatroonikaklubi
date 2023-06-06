@@ -131,6 +131,7 @@ class ChessRobot(object):
         :param target_position: target position to move the piece to
         """
         params = self.get_robot_arm_parameters(target_position, piece.height + self.piece_dropoff_height_offset)
+        print(f"MOVE PARAMS: {params}")
         self.arm.move_arm_to_position(*params)
         time.sleep(2)
         self.arm.electromagnet.disable()
