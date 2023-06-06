@@ -44,12 +44,13 @@ class Game(object):
         self.selection_color = selection_color
         self.last_move_color = last_move_color
         self.possible_moves_color = possible_moves_color
+        
+        self.selected = False # Tracking whether a square has been selected or not
+        self.player_color = 1
 
         self.selecting_promotion = False
         self.color_squares()
 
-        self.selected = False # Tracking whether a square has been selected or not
-        self.player_color = 1
 
 
     def run(self):
@@ -58,7 +59,7 @@ class Game(object):
         """
         while True:
             # action = self.controller.get_input()
-            action = self.get_input()
+            action = self.controller.get_input()
             x, y = get_coordinates_from_position(self.cur_selection)
             """
             ———————————No switches?———————————
