@@ -38,7 +38,7 @@ class Game(object):
         self.cur_selection = "d2"
         self.last_selection = "d2"
         self.last_move = []
-        self.possible_moves = []
+        self.possible_moves = ["d3", "d4"]
         self.possible_selections = []
 
         self.selection_color = selection_color
@@ -200,8 +200,8 @@ class Game(object):
                 piece = possible_pieces['N'][0]
             move.move.promotion = get_piece_type_from_name(piece.name)
 
-        from_square = get_position_from_square_number(move.from_square)
-        to_square = get_position_from_square_number(move.to_square)
+        from_square = get_position_from_square_number(move.move.from_square)
+        to_square = get_position_from_square_number(move.move.to_square)
         self.make_move(from_square, to_square, piece)
         self.game.push(move)
         self.last_move = [from_square, to_square]
