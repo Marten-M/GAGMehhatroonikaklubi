@@ -37,7 +37,6 @@ class LEDStrip(object):
         """
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, Color(*color))
-        self.strip.show()
     
     def show_strip(self):
         self.strip.show()

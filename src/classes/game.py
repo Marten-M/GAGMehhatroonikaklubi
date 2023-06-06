@@ -50,6 +50,7 @@ class Game(object):
 
         self.selecting_promotion = False
         self.color_squares()
+        self.robot.board.main_board_led_strip.show_strip()
 
     def run(self):
         """
@@ -187,7 +188,7 @@ class Game(object):
         """
         move = self.engine.engine.play(self.game, chess.engine.Limit(time=0.1))
         piece = None
-        if move.promotion is not None:
+        if move.move.promotion is not None:
             possible_pieces = self.robot.board.get_possible_pieces_for_promotion(0)
             if possible_pieces.get('Q', None) is not None:
                 piece = possible_pieces['Q'][0]
