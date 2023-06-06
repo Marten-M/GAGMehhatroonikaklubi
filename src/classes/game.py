@@ -203,7 +203,6 @@ class Game(object):
         from_square = get_position_from_square_number(move.move.from_square)
         to_square = get_position_from_square_number(move.move.to_square)
         self.make_move(from_square, to_square, piece)
-        self.game.push(move.move)
         self.last_move = [from_square, to_square]
 
     def get_input(self) -> str:
