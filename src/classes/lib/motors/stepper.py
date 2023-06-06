@@ -31,5 +31,5 @@ class Stepper(object):
 
         for i in range(abs(steps)):
             self.step_sender.off()
-            sleep(0.001)
+            sleep(0.0005)
             self.step_sender.on()
