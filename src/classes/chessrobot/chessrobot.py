@@ -119,7 +119,7 @@ class ChessRobot(object):
         params = self.get_robot_arm_parameters(piece.position, piece.height + self.arm.electromagnet.pull_distance)
         self.arm.move_arm_to_position(*params)
         print(f"PARAMS:", *params)
-        time.sleep(10)
+        time.sleep(1)
         self.arm.electromagnet.pull()
         self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
         self.arm.move_arm_to_position(*self.default_arm_position)
