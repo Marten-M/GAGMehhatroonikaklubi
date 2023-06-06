@@ -87,7 +87,7 @@ class ChessRobot(object):
                 vertical_distance = self.vertical_distance_to_black_removed + self.board.chess_tile_side_length * (0.5 + (7 - y))
                 horizontal_distance = self.horizontal_distance_to_black_removed + self.board.chess_tile_side_length * (0.5 + x)
                 angle = 90 - arctan(horizontal_distance / vertical_distance) + 90 + self.arm_zero_position_offset
-            
+
             total_dist = calc_vector_length(horizontal_distance, vertical_distance)
 
         return (angle, total_dist, target_height)
@@ -130,7 +130,7 @@ class ChessRobot(object):
         :param piece: piece to place that robot is currently holding
         :param target_position: target position to move the piece to
         """
-        params = self.get_robot_arm_parameters(target_position, piece.height - 4)
+        params = self.get_robot_arm_parameters(target_position, piece.height + self.piece_dropoff_height_offset)
         print(f"MOVE PARAMS: {params}")
         self.arm.move_arm_to_position(*params)
         time.sleep(2)

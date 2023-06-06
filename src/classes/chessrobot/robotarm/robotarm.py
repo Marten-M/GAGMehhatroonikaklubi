@@ -98,7 +98,7 @@ class RobotArm(object):
         diff2 = self.second_arm_servo.cur_angle - b
         print(diff2)
         while self.first_arm_servo.cur_angle != a or self.second_arm_servo.cur_angle != b:
-            print(self.second_arm_servo.cur_angle)
+            print(self.first_arm_servo.cur_angle, self.second_arm_servo.cur_angle)
             if self.first_arm_servo.cur_angle != a:
                 if diff1 < 0:
                     self.first_arm_servo.motor.angle += 1
