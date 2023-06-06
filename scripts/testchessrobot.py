@@ -31,11 +31,9 @@ if __name__ == "__main__":
     detector = Button(STEPPER_ZERO_POSITION_DETECT_PIN)
     while not detector.is_pressed:
         stepper.rotate_steps(1)
-    stepper.rotate_steps(-2400)
     magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM, ELECTROMAGNET_HEIGHT_CM)
 
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, FIRST_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, second_servo, SECOND_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, magnet)
-    arm.cur_angle = 180
 
     main_led_strip = LEDStrip(MAIN_BOARD_LED_PIN, MAIN_BOARD_PIXEL_COUNT)
 

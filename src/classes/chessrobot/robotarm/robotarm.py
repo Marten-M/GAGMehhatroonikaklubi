@@ -68,7 +68,7 @@ class RobotArm(object):
 
         :return: integer representing number of steps the stepper motor has to take
         """
-        steps = (target_angle - self.cur_angle) / self.stepper.step
+        steps = (self.cur_angle - target_angle) / self.stepper.step
 
         if int(abs(steps) * 10) % 10 >= 5: # Get the tenths
             steps = int(steps) + 1 if steps >= 0 else int(steps) - 1
