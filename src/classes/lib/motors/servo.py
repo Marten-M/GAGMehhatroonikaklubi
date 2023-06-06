@@ -33,9 +33,9 @@ class Servo(object):
         if self.cur_angle < angle:
             for i in range(self.cur_angle, angle + 1):
                 self.motor.angle = i - 90
-                sleep(0.03)
+                sleep(0.06)
         else:
             for i in range(self.cur_angle, angle - 1, -1):
                 self.motor.angle = i - 90
-                sleep(0.03)
+                sleep(0.06)
         self.cur_angle = angle
