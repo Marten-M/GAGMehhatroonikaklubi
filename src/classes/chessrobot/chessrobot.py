@@ -72,7 +72,7 @@ class ChessRobot(object):
             if x < 4:
                 angle = 90 - arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
             else:
-                angle += 90 + arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
+                angle = 90 + arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
             print(f"angle: {angle}")
 
         else:
