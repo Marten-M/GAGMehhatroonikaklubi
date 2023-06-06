@@ -189,4 +189,4 @@ class ChessRobot(object):
             if not self.castle(starting_position, ending_position):
                 self.move_piece(starting_position, ending_position)
         else:
-            self.move_piece(starting_piece, ending_position)
+            self.move_piece(starting_position, ending_position)
