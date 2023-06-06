@@ -68,10 +68,11 @@ class ChessRobot(object):
             total_dist = calc_vector_length(horizontal_distance, vertical_distance)
 
             angle = 90 - arctan(horizontal_distance / vertical_distance) + self.arm_zero_position_offset
-            print(f"angle: {angle}")
             
             if x >= 4:
                 angle += 90
+            print(f"angle: {angle}")
+
         else:
             color = 1 if target_position[1] == "W" else 0
             target_position = target_position[2:]
@@ -182,7 +183,7 @@ class ChessRobot(object):
             self.move_piece(ending_piece.position, removed_piece_destination)
 
         starting_piece = self.board.get_piece(starting_position)
-        print(f"starting piece: {starting_piece}")
+        print(f"starting piece: {starting_piece.position}")
         # Check if it is a pawn making a promotion
         if promotion_piece is not None:
             destination = self.board.get_first_free_position(starting_piece.color)
