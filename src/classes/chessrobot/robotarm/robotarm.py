@@ -87,7 +87,7 @@ class RobotArm(object):
         self.stepper.rotate_steps(steps)
         self.cur_angle += steps * self.stepper.step
 
-        a, b = self.get_servo_angles(target_dist, target_height)
+        a, b = self.get_servo_angles(target_dist, target_height + self.electromagnet.height)
         print(f"Angles: {a}, {b}")
         self.first_arm_servo.set_angle(a)
         self.second_arm_servo.set_angle(b)
