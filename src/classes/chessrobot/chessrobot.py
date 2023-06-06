@@ -11,6 +11,8 @@ from .robotarm.robotarm import RobotArm
 from ...lib.chessmovehelperfunctions import get_coordinates_from_position
 from ...lib.mathfunctions import calc_vector_length, arctan
 
+import time
+
 
 class ChessRobot(object):
     def __init__(self, arm: RobotArm, default_arm_position: tuple, board: Board, offset_angle: float, board_distance: float, horizontal_dist_to_black_removed: float, vertical_dist_to_black_removed: float, horizontal_dist_to_white_removed: float, vertical_dist_to_white_removed: float, controller: Controller, piece_dropoff_height: float):
@@ -116,6 +118,8 @@ class ChessRobot(object):
         """
         params = self.get_robot_arm_parameters(piece.position, piece.height + self.arm.electromagnet.pull_distance)
         self.arm.move_arm_to_position(*params)
+        print(f"PARAMS:", *params)
+        time.sleep(10)
         self.arm.electromagnet.pull()
         self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
         self.arm.move_arm_to_position(*self.default_arm_position)
