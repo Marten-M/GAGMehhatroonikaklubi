@@ -44,14 +44,14 @@ HORIZONTAL_DIST_TO_REMOVED_WHITES = 25
 VERTICAL_DIST_TO_REMOVED_WHITES = 20
 
 INITIAL_BOARD_STATE = [
-    ["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"],
-    ["BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP"],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
+    ["WR", "WN", "WB", "WQ", "WK", "WB", "WN", "WR"],
     ["WP", "WP", "WP", "WP", "WP", "WP", "WP", "WP"],
-    ["WR", "WN", "WB", "WQ", "WK", "WB", "WN", "WR"]
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP"],
+    ["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"]
 ]
 
 INITIAL_WHITE = [
