@@ -22,9 +22,9 @@ if __name__ == "__main__":
     
     stepper = Stepper(STEPPER_STEP_PIN, STEPPER_DIRECTION_PIN, STEPPER_STEP_DEGREES)
     # Zero the stepper motor
-    # detector = Button(STEPPER_ZERO_POSITION_DETECT_PIN)
-    # while not detector.is_pressed:
-    #     stepper.rotate_steps(1)
+    detector = Button(STEPPER_ZERO_POSITION_DETECT_PIN)
+    while not detector.is_pressed:
+        stepper.rotate_steps(1)
 
     magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM, ELECTROMAGNET_HEIGHT_CM)
 
