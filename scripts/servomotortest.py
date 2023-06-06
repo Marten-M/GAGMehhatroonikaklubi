@@ -17,9 +17,7 @@ if __name__ == "__main__":
     servo2 = Servo(SECOND_SERVO_PIN, SERVO_MIN_POSITION_PULSE_WIDTH_MS, SERVO_MAX_POSITION_PULSE_WIDTH_MS)
     sleep(2)
     while True:
-        servo1.set_angle(90)
-        servo2.set_angle(0)
-        sleep(2)
-        servo1.set_angle(180)
-        sleep(10)
+        nums = list(map(int, input().split()))
+        servo1.set_angle(nums[0])
+        servo2.set_angle(nums[1])
         
