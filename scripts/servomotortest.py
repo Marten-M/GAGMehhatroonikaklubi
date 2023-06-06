@@ -18,10 +18,8 @@ if __name__ == "__main__":
     sleep(2)
     while True:
         servo1.set_angle(90)
+        servo2.set_angle(0)
         sleep(2)
-        servo1.set_angle(120)
-        sleep(2)
-        servo2.set_angle(120)
-        sleep(2)
-        servo2.set_angle(90)
-        sleep(2)
+        servo1.set_angle(180)
+        sleep(10)
+        
