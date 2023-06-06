@@ -13,10 +13,11 @@ class ElectroMagnet(object):
         :param magnet_pull_distance: how far away the electromagnet can pull in cm
         :param height: height of the electromagnet in cm
         """
-        self.pull_pin = OutputDevice(pull_pin)
+        self.pull_pin = OutputDevice(pull_pin, active_high=False)
         self.push_pin = OutputDevice(push_pin)
         self.pull_distance = magnet_pull_distance
         self.height = height
+        self.disable()
 
     def disable(self):
         """
