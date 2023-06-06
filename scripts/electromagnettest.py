@@ -12,7 +12,7 @@ from src.classes.chessrobot.robotarm.electromagnet import ElectroMagnet
 from time import sleep
 
 if __name__ == "__main__":
-    magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, MAGNET_PULL_DISTANCE_CM)
+    magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM)
     while True:
         magnet.pull()
         sleep(3)
