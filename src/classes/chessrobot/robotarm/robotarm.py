@@ -50,8 +50,10 @@ class RobotArm(object):
         """
         third_side = ((self.height - height) ** 2 + distance_from_arm ** 2) ** 0.5
         area = get_area_heron(self.first_arm_length, self.second_arm_length, third_side)
-
-        a = 270 - self.first_servo_zero_position_offset_angle - (arcsin(distance_from_arm / third_side) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
+        if height <= self.height:
+            a = 270 - self.first_servo_zero_position_offset_angle - (arcsin(distance_from_arm / third_side) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
+        else:
+            a = 270 - self.first_servo_zero_position_offset_angle - ((90 + arcsin((height - self.height) / third_side)) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
         b = 180 - get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
 
         return (int(a), int(b))
