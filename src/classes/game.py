@@ -247,3 +247,4 @@ class Game(object):
         if not self.selecting_promotion and self.selected:
             self.robot.board.set_color_square(self.last_selection, self.possible_moves_color)
         self.robot.board.set_color_square(self.cur_selection, self.selection_color)
+        self.robot.board.main_board_led_strip.show_strip()
