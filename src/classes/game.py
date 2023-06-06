@@ -198,7 +198,7 @@ class Game(object):
                 piece = possible_pieces['B'][0]
             elif possible_pieces.get('N', None) is not None:
                 piece = possible_pieces['N'][0]
-            move.promotion = get_piece_type_from_name(piece.name)
+            move.move.promotion = get_piece_type_from_name(piece.name)
 
         from_square = get_position_from_square_number(move.from_square)
         to_square = get_position_from_square_number(move.to_square)
