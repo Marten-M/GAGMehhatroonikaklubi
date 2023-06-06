@@ -42,6 +42,7 @@ class RobotArm(object):
         self.second_servo_zero_position_offset_angle = second_servo_zero_position_offset_angle
 
     def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[int, int]:
+        print("height:" + str(height))
         """
         Get angles the servos should go under to reach desired distance.
 
@@ -96,9 +97,7 @@ class RobotArm(object):
         
         diff1 = self.first_arm_servo.cur_angle - a
         diff2 = self.second_arm_servo.cur_angle - b
-        print(diff2)
         while self.first_arm_servo.cur_angle != a or self.second_arm_servo.cur_angle != b:
-            print(self.first_arm_servo.cur_angle, self.second_arm_servo.cur_angle)
             if self.first_arm_servo.cur_angle != a:
                 if diff1 < 0:
                     self.first_arm_servo.motor.angle += 1
