@@ -8,6 +8,8 @@ from ...lib.motors.servo import Servo
 
 from .electromagnet import ElectroMagnet
 
+import time
+
 
 class RobotArm(object):
     def __init__(self, first_arm_length: float, second_arm_length: float, starting_height: float, stepper: Stepper, first_arm_servo: Servo, first_servo_zero_position_offset_angle: int, second_arm_servo: Servo, second_servo_zero_position_offset_angle: int, electromagnet: ElectroMagnet):
@@ -97,11 +99,16 @@ class RobotArm(object):
         while self.first_arm_servo.cur_angle != a or self.second_arm_servo.cur_angle != b:
             if self.first_arm_servo.cur_angle != a:
                 if diff1 < 0:
-                    self.first_arm_servo.set_angle(self.first_arm_servo.cur_angle + 1)
+                    self.first_arm_servo.motor.angle += 1
+                    self.first_arm_servo.cur_angle += 1
                 else:
-                    self.first_arm_servo.set_angle(self.first_arm_servo.cur_angle - 1)
+                    self.first_arm_servo.motor.angle -= 1
+                    self.first_arm_servo.cur_angle -= 1
             if self.second_arm_servo.cur_angle != b:
                 if diff2 < 0:
-                    self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle + 1)
+                    self.second_arm_servo.motor.angle += 1
+                    self.second_arm_servo.cur_angle += 1
                 else:
-                    self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle - 1)
+                    self.second_arm_servo.motor.angle -= 1
+                    self.second_arm_servo.cur_angle -= 1
+            time.sleep(0.06)

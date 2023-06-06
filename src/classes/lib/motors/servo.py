@@ -30,7 +30,7 @@ class Servo(object):
         """
         angle = int(angle)
         angle = min(180, angle) if angle > 0 else 0
-        if self.cur_angle < angle:
+        if self.cur_angle <= angle:
             for i in range(self.cur_angle, angle + 1):
                 self.motor.angle = i - 90
                 sleep(0.06)
