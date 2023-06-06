@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, MAGNET_PULL_DISTANCE_CM)
 
-    arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, second_servo, magnet)
+    arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, FIRST_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, second_servo, SECOND_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, magnet)
 
     main_led_strip = LEDStrip(MAIN_BOARD_LED_PIN, MAIN_BOARD_PIXEL_COUNT)
 

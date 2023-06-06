@@ -28,6 +28,7 @@ class Servo(object):
 
         :param angle: angle to set servo to
         """
+        angle = int(angle)
         angle = min(180, angle) if angle > 0 else 0
         if self.cur_angle < angle:
             for i in range(self.cur_angle, angle + 1):
