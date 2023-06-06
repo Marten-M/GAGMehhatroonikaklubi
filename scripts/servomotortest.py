@@ -19,9 +19,9 @@ if __name__ == "__main__":
     while True:
         servo1.set_angle(90)
         sleep(2)
-        servo1.set_angle(180)
+        servo1.set_angle(120)
+        sleep(2)
+        servo2.set_angle(120)
         sleep(2)
         servo2.set_angle(90)
-        sleep(2)
-        servo2.set_angle(150)
         sleep(2)
