@@ -3,7 +3,6 @@
 from gpiozero import OutputDevice
 from gpiozero.pins.native import NativeFactory
 OutputDevice.pin_factory = NativeFactory()
-print("aite")
 
 
 class ElectroMagnet(object):
@@ -16,7 +15,6 @@ class ElectroMagnet(object):
         """
         self.pull_pin = OutputDevice(pull_pin)
         self.pull_distance = magnet_pull_distance
-        
 
     def disable(self):
         """

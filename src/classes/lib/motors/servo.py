@@ -14,8 +14,13 @@ class Servo(object):
         :param pulse_frame_width_ms: pulse frame width in milliseconds
         """
         self.motor = AngularServo(pin, min_pulse_width=min_pulse_ms / 1000, max_pulse_width=max_pulse_ms / 1000, frame_width=pulse_frame_width_ms / 1000)
-        self.motor.angle = 0
-        self.cur_angle = 90
+        angle = self.motor.angle
+        if angle is not None:
+            self.cur_angle = 90 + self.motor.angle
+            self.set_angle(90)
+        else:
+            self.motor.angle = 0
+            self.cur_angle = 90
 
     def set_angle(self, angle: int):
         """
