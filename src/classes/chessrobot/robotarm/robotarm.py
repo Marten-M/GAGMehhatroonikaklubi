@@ -1,6 +1,6 @@
 """Robot arm class file."""
 from typing import Tuple
-
+import time
 from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin, arccos
 
 from ...lib.motors.stepper import Stepper
@@ -94,7 +94,9 @@ class RobotArm(object):
         
         diff1 = self.first_arm_servo.cur_angle - a
         diff2 = self.second_arm_servo.cur_angle - b
+        print(diff2)
         while self.first_arm_servo.cur_angle != a or self.second_arm_servo.cur_angle != b:
+            print(self.second_arm_servo.cur_angle)
             if self.first_arm_servo.cur_angle != a:
                 if diff1 < 0:
                     self.first_arm_servo.set_angle(self.first_arm_servo.cur_angle + 1)
@@ -105,3 +107,4 @@ class RobotArm(object):
                     self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle + 1)
                 else:
                     self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle - 1)
+            time.sleep(1)

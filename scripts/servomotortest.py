@@ -18,6 +18,6 @@ if __name__ == "__main__":
     sleep(2)
     while True:
         nums = list(map(int, input().split()))
-        servo1.set_angle(nums[0])
         servo2.set_angle(nums[1])
+        servo1.set_angle(nums[0])
         
