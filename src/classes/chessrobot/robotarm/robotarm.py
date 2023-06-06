@@ -111,11 +111,6 @@ class RobotArm(object):
                     self.second_arm_servo.motor.angle += 1
                     self.second_arm_servo.cur_angle += 1
                 else:
-<<<<<<< HEAD
-                    self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle - 1)
-            time.sleep(1)
-=======
                     self.second_arm_servo.motor.angle -= 1
                     self.second_arm_servo.cur_angle -= 1
             time.sleep(0.06)
->>>>>>> dabd181c36b3768ce6fb46fdbd35b7e19b6c6f94
