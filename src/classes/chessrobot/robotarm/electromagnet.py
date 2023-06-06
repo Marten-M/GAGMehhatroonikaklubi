@@ -1,8 +1,6 @@
 """ElectroMagnet class file."""
 
 from gpiozero import OutputDevice
-from gpiozero.pins.native import NativeFactory
-OutputDevice.pin_factory = NativeFactory()
 
 
 class ElectroMagnet(object):
