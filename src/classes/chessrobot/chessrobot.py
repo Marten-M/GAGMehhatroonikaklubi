@@ -133,8 +133,8 @@ class ChessRobot(object):
         """
         params = self.get_robot_arm_parameters(target_position, piece.height + self.piece_dropoff_height_offset)
         self.arm.move_arm_to_position(*params)
-        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
         self.arm.electromagnet.disable()
+        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
         self.arm.move_arm_to_position(*self.default_arm_position)
 
     def castle(self, starting_position: str, ending_position: str) -> bool:
