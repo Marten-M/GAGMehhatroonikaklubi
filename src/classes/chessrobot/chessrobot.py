@@ -186,7 +186,7 @@ class ChessRobot(object):
             removed_piece_destination = self.board.get_first_free_position(ending_piece.color)
             self.move_piece(ending_piece.position, removed_piece_destination)
 
-        starting_piece = self.board.get_piece(starting_position)
+        starting_piece = self.board.get_piece(starting_position) 
         # Check if it is a pawn making a promotion
         if promotion_piece is not None:
             destination = self.board.get_first_free_position(starting_piece.color)
