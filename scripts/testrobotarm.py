@@ -30,4 +30,6 @@ if __name__ == "__main__":
 
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, FIRST_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, second_servo, SECOND_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, magnet)
 
-    arm.move_arm_to_position(87, 20, 5)
+    arm.move_arm_to_position(87, 50, 10)
+    sleep(4)
+    arm.move_arm_to_position(87, 50, 15)

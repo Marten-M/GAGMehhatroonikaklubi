@@ -54,7 +54,7 @@ class RobotArm(object):
             a = 90 + 180 - (arcsin(distance_from_arm / third_side) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
         else:
             a = 270 - ((90 + arcsin((height - self.height) / third_side)) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
-        b = get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
+        b = 180 - get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
 
         return (int(a), int(b))
 
