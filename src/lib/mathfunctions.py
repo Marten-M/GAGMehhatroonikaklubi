@@ -14,6 +14,17 @@ def arcsin(value: float) -> float:
     return float(round(np.arcsin(value) * 180 / math.pi, 3))
 
 
+def arccos(value: float) -> float:
+    """
+    Get arccos of value in degrees.
+
+    :param value: value to take arccos of
+
+    :return: angle in degrees
+    """
+    return float(round(np.arccos(value) * 180 / math.pi, 3))
+
+
 def arctan(value: float) -> float:
     """
     Get arctan of value in degrees.

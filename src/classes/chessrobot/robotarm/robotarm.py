@@ -1,7 +1,7 @@
 """Robot arm class file."""
 from typing import Tuple
 
-from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin
+from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin, arccos
 
 from ...lib.motors.stepper import Stepper
 from ...lib.motors.servo import Servo
@@ -49,12 +49,11 @@ class RobotArm(object):
         :return: angle of first and second servo in the form (first_servo_angle, second_servo_angle)
         """
         third_side = ((self.height - height) ** 2 + distance_from_arm ** 2) ** 0.5
-        area = get_area_heron(self.first_arm_length, self.second_arm_length, third_side)
         if height <= self.height:
-            a = 90 + 180 - (arcsin(distance_from_arm / third_side) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
+            a = self.first_servo_zero_position_offset_angle + 90 + (180 - (arccos((self.second_arm_length ** 2 - self.first_arm_length ** 2 - third_side ** 2) / (-2 * self.first_arm_length * third_side)) + arcsin(distance_from_arm / third_side)))
         else:
-            a = 270 - ((90 + arcsin((height - self.height) / third_side)) + get_angle_between_triangle_sides(area, self.first_arm_length, third_side))
-        b = 180 - get_angle_between_triangle_sides(area, self.first_arm_length, self.second_arm_length)
+            a = self.first_servo_zero_position_offset_angle + 90 + (180 - (arccos((self.second_arm_length ** 2 - self.first_arm_length ** 2 - third_side ** 2) / (-2 * self.first_arm_length * third_side)) + 90 + arcsin((height - self.height) / third_side)))
+        b = self.second_servo_zero_position_offset_angle + 180 - arccos((third_side ** 2 - self.first_arm_length ** 2 - self.second_arm_length ** 2) / (-2 * self.first_arm_length * self.second_arm_length))
 
         return (int(a), int(b))
 
@@ -88,9 +87,10 @@ class RobotArm(object):
         steps = self.get_stepper_steps(target_stepper_angle)
         print(steps)
         self.stepper.rotate_steps(steps)
-        self.cur_angle += steps * self.stepper.step
+        self.cur_angle += -steps * self.stepper.step
 
         a, b = self.get_servo_angles(target_dist, target_height + self.electromagnet.height)
         print(f"Angles: {a}, {b}")
-        self.first_arm_servo.set_angle(a)
         self.second_arm_servo.set_angle(b)
+        self.first_arm_servo.set_angle(a)
+        
