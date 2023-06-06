@@ -51,8 +51,6 @@ class Game(object):
         self.selecting_promotion = False
         self.color_squares()
 
-
-
     def run(self):
         """
         Run the chess game.
@@ -106,6 +104,7 @@ class Game(object):
             if not self.selected:
                 self.update_possible_moves()
             self.color_squares()
+            self.robot.board.main_board_led_strip.show_strip()
             if self.game.is_game_over():
                 winner = self.game.outcome().winner
                 if winner is None:
@@ -115,6 +114,7 @@ class Game(object):
                 else:
                     self.screen.write("Must võitis!")
                 return
+            sleep(0.2)
 
     def selection_legal(self, color: int) -> bool:
         """
@@ -178,6 +178,8 @@ class Game(object):
 
             self.cur_selection = 'OW' + get_position_from_coordinates(x, y)
             self.color_squares()
+            self.robot.board.main_board_led_strip.show_strip()
+            sleep(0.2)
 
     def make_engine_move(self):
         """
@@ -247,4 +249,3 @@ class Game(object):
         if not self.selecting_promotion and self.selected:
             self.robot.board.set_color_square(self.last_selection, self.possible_moves_color)
         self.robot.board.set_color_square(self.cur_selection, self.selection_color)
-        self.robot.board.main_board_led_strip.show_strip()
