@@ -91,6 +91,17 @@ class RobotArm(object):
 
         a, b = self.get_servo_angles(target_dist, target_height + self.electromagnet.height)
         print(f"Angles: {a}, {b}")
-        self.second_arm_servo.set_angle(b)
-        self.first_arm_servo.set_angle(a)
         
+        diff1 = self.first_arm_servo.cur_angle - a
+        diff2 = self.second_arm_servo.cur_angle - b
+        while self.first_arm_servo.cur_angle != a and self.second_arm_servo.cur_angle != b:
+            if self.first_arm_servo.cur_angle != a:
+                if diff1 < 0:
+                    self.first_arm_servo.set_angle(self.first_arm_servo.cur_angle + 1)
+                else:
+                    self.first_arm_servo.set_angle(self.first_arm_servo.cur_angle - 1)
+
+                if diff2 < 0:
+                    self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle + 1)
+                else:
+                    self.first_arm_servo.set_angle(self.second_arm_servo.cur_angle - 1)
