@@ -26,7 +26,7 @@ if __name__ == "__main__":
     while not detector.is_pressed:
         stepper.rotate_steps(1)
 
-    magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, MAGNET_PULL_DISTANCE_CM)
+    magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM)
 
     arm = RobotArm(FIRST_ARM_LENGTH_CM, SECOND_ARM_LENGTH_CM, ARM_HEIGHT_CM, stepper, first_servo, FIRST_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, second_servo, SECOND_ARM_ZERO_POSITION_OFFSET_ANGLE_DEGREES, magnet)
 
