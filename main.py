@@ -21,9 +21,7 @@ if __name__ == "__main__":
     
     stepper = Stepper(STEPPER_STEP_PIN, STEPPER_DIRECTION_PIN, STEPPER_STEP_DEGREES)
     # Zero the stepper motor
-    detector = Button(STEPPER_ZERO_POSITION_DETECT_PIN)
-    while not detector.is_pressed:
-        stepper.rotate_steps(1)
+    stepper.zero_step()
 
     magnet = ElectroMagnet(ELECTROMAGNET_PULL_PIN, ELECTROMAGNET_PUSH_PIN, MAGNET_PULL_DISTANCE_CM, ELECTROMAGNET_HEIGHT_CM)
 
@@ -41,6 +39,6 @@ if __name__ == "__main__":
 
     screen = LCDScreen(LCD_SCREEN_COLUMNS, LCD_SCREEN_ROWS, LCD_RS_PIN, LCD_RW_PIN, LCD_E_PIN, LCD_DATA_PINS)
 
-    game = Game(robot, engine, screen,controller, COLORS["green"], COLORS["light_red"], COLORS["light_green"])
+    game = Game(robot, engine, screen,controller, COLORS["green"], COLORS["light_red"], COLORS["light_green"],stepper,arm)
     game.run()
     

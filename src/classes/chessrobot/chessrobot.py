@@ -117,13 +117,15 @@ class ChessRobot(object):
         :param piece: Chess piece to pick up
         """
         params = self.get_robot_arm_parameters(piece.position, piece.height + self.arm.electromagnet.pull_distance)
-        self.arm.move_arm_to_position(*params)
-        time.sleep(5)
+        self.arm.move_arm_to_position(params[0], params[1], params[2] + 6,order=False)
+        time.sleep(1)
+        self.arm.move_arm_to_position(*params,order=False)
+        time.sleep(1)
         self.arm.electromagnet.pull()
-        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
-        time.sleep(4)
+        self.arm.move_arm_to_position(params[0], params[1], 22)
+        time.sleep(1)
         self.arm.move_arm_to_position(*self.default_arm_position)
-        time.sleep(3)
+        time.sleep(1)
 
     def place_piece(self, piece: ChessPiece, target_position: str):
         """
@@ -134,11 +136,14 @@ class ChessRobot(object):
         """
         params = self.get_robot_arm_parameters(target_position, piece.height + self.piece_dropoff_height_offset)
         print(f"MOVE PARAMS: {params}")
-        self.arm.move_arm_to_position(*params)
-        time.sleep(5)
+        self.arm.move_arm_to_position(params[0], params[1], params[2] + 7,order=False)
+        time.sleep(1)
+        self.arm.move_arm_to_position(*params,order=False)
+        time.sleep(2)
         self.arm.electromagnet.disable()
-        self.arm.move_arm_to_position(params[0], params[1], params[2] + 13)
-        time.sleep(5)
+        time.sleep(1)
+        self.arm.move_arm_to_position(params[0], params[1], 22)
+        time.sleep(2)
         self.arm.move_arm_to_position(*self.default_arm_position)
 
     def castle(self, starting_position: str, ending_position: str) -> bool:

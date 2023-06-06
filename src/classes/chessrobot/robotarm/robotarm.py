@@ -5,9 +5,9 @@ from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_her
 
 from ...lib.motors.stepper import Stepper
 from ...lib.motors.servo import Servo
-
+#from .....main import detector
 from .electromagnet import ElectroMagnet
-
+from gpiozero import Button
 import time
 
 
@@ -43,6 +43,12 @@ class RobotArm(object):
 
     def get_servo_angles(self, distance_from_arm: float, height: float) -> Tuple[int, int]:
         print("height:" + str(height))
+        height = height + (distance_from_arm - 25)*0.2
+        """
+        if distance_from_arm > 50:
+            print("üle 50")
+            distance_from_arm += 1
+            height += 5"""
         """
         Get angles the servos should go under to reach desired distance.
 
@@ -79,7 +85,7 @@ class RobotArm(object):
 
         return steps
 
-    def move_arm_to_position(self, target_stepper_angle: float, target_dist: float, target_height: float):
+    def move_arm_to_position(self, target_stepper_angle: float, target_dist: float, target_height: float,order=True):
         """
         Move arm to given position.
 
@@ -113,5 +119,12 @@ class RobotArm(object):
         #             self.second_arm_servo.motor.angle -= 1
         #             self.second_arm_servo.cur_angle -= 1
         #     time.sleep(0.06)
-        self.first_arm_servo.set_angle(a)
-        self.second_arm_servo.set_angle(b)
+        if order:
+            self.first_arm_servo.set_angle(a)
+            self.second_arm_servo.set_angle(b)
+        else:
+            self.second_arm_servo.set_angle(b)
+            self.first_arm_servo.set_angle(a)
+    def zero_steps(self):
+        self.stepper.zero_step()
+        self.cur_angle = 0

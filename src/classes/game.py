@@ -7,19 +7,20 @@ from time import sleep
 from typing import Tuple
 
 from .engine import ChessEngine
-
+from .lib.motors.stepper import Stepper
 from .lib.lcdscreen import LCDScreen
-
 from .chessrobot.chessrobot import ChessRobot
 from .chessrobot.chessboard.piece import ChessPiece
 from .chessrobot.controller.controller import Controller
-
+from .chessrobot.robotarm.robotarm import RobotArm
 from ..lib.chessmovehelperfunctions import get_coordinates_from_position, get_position_from_coordinates, get_position_from_square_number, get_move, get_piece_type_from_name
+
+from ..constants import *
 
 color = Tuple[int, int, int]
 
 class Game(object):
-    def __init__(self, robot: ChessRobot, engine: ChessEngine, screen: LCDScreen, controller: Controller, selection_color: color, last_move_color: color, possible_moves_color: color):
+    def __init__(self, robot: ChessRobot, engine: ChessEngine, screen: LCDScreen, controller: Controller, selection_color: color, last_move_color: color, possible_moves_color: color,stepper:Stepper,arm:RobotArm):
         """
         Initialize chess game.
 
@@ -34,7 +35,7 @@ class Game(object):
         self.engine = engine
         self.screen = screen
         self.controller = controller
-
+        self.arm = arm
         self.cur_selection = "d2"
         self.last_selection = "d2"
         self.last_move = []
@@ -47,7 +48,7 @@ class Game(object):
         
         self.selected = False # Tracking whether a square has been selected or not
         self.player_color = 1
-
+        self.stepper = stepper
         self.selecting_promotion = False
         self.color_squares()
         self.robot.board.main_board_led_strip.show_strip()
@@ -203,6 +204,7 @@ class Game(object):
         from_square = get_position_from_square_number(move.move.from_square)
         to_square = get_position_from_square_number(move.move.to_square)
         self.make_move(from_square, to_square, piece)
+        self.arm.zero_steps()
         self.last_move = [from_square, to_square]
 
     def get_input(self) -> str:

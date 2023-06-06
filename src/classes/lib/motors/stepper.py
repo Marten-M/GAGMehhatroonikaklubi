@@ -1,5 +1,5 @@
 """Stepper motor class file."""
-from gpiozero import OutputDevice
+from gpiozero import OutputDevice, Button
 from time import sleep
 
 
@@ -28,8 +28,11 @@ class Stepper(object):
             self.direction.off()
         else:
             self.direction.on()
-
         for i in range(abs(steps)):
             self.step_sender.off()
             sleep(0.0005)
             self.step_sender.on()
+    def zero_step(self):
+        detector = Button(12)
+        while not detector.is_pressed:
+            self.rotate_steps(1)
