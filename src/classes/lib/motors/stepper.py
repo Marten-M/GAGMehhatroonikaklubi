@@ -32,6 +32,7 @@ class Stepper(object):
             self.step_sender.off()
             sleep(0.0005)
             self.step_sender.on()
+
     def zero_step(self):
         detector = Button(12)
         while not detector.is_pressed:

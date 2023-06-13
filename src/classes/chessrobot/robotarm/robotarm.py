@@ -1,14 +1,11 @@
 """Robot arm class file."""
 from typing import Tuple
 import time
-from ....lib.mathfunctions import get_angle_between_triangle_sides, get_area_heron, arcsin, arccos
+from ....lib.mathfunctions import arcsin, arccos
 
 from ...lib.motors.stepper import Stepper
 from ...lib.motors.servo import Servo
-#from .....main import detector
 from .electromagnet import ElectroMagnet
-from gpiozero import Button
-import time
 
 
 class RobotArm(object):
@@ -35,6 +32,9 @@ class RobotArm(object):
 
         self.first_arm_servo = first_arm_servo
         self.second_arm_servo = second_arm_servo
+
+        self.cur_dist = 0
+        self.cur_height = 0
 
         self.electromagnet = electromagnet
 
@@ -85,7 +85,7 @@ class RobotArm(object):
 
         return steps
 
-    def move_arm_to_position(self, target_stepper_angle: float, target_dist: float, target_height: float,order=True):
+    def move_arm_to_position(self, target_stepper_angle: float, target_dist: float, target_height: float, order=True):
         """
         Move arm to given position.
 
@@ -100,7 +100,7 @@ class RobotArm(object):
 
         a, b = self.get_servo_angles(target_dist, target_height + self.electromagnet.height)
         print(f"Angles: {a}, {b}")
-        
+
         diff1 = self.first_arm_servo.cur_angle - a
         diff2 = self.second_arm_servo.cur_angle - b
         # while self.first_arm_servo.cur_angle != a or self.second_arm_servo.cur_angle != b:
@@ -125,6 +125,22 @@ class RobotArm(object):
         else:
             self.second_arm_servo.set_angle(b)
             self.first_arm_servo.set_angle(a)
+        self.cur_dist = target_dist
+        self.cur_height = target_height
+
+    def move_arm_vertically(self, distance: float):
+        """
+        Move the robot arm straight up or down a given distance.
+
+        :param distance: distance to move the arm in cm. Should be positive if arm should be moved down and negative if up
+        """
+        if distance >= 0:
+            for target in range(self.cur_height, self.cur_height + distance, 0.5):
+                self.move_arm_to_position(self.cur_angle, self.cur_dist, target)
+        else:
+            for target in range(self.cur_height + distance, self.cur_height, -0.5):
+                self.move_arm_to_position(self.cur_angle, self.cur_dist, target)
+
     def zero_steps(self):
         self.stepper.zero_step()
         self.cur_angle = 0
