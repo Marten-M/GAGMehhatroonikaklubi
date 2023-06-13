@@ -102,6 +102,8 @@ class Game(object):
                         self.make_move(self.last_selection, self.cur_selection)
                         self.screen.write("Vastane käib...")
                         self.make_engine_move()
+                        self.selected = False
+
             self.cur_selection = get_position_from_coordinates(x, y)
             if not self.selected:
                 self.update_possible_moves()

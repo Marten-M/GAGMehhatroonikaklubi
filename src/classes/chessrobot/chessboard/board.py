@@ -106,7 +106,7 @@ class Board(object):
         for y in range(2):
             for x in range(8):
                 if board[y][x] is None:
-                    return f"O{'W' if color else 'B'}{get_position_from_coordinates(y, x)}"
+                    return f"O{'W' if color else 'B'}{get_position_from_coordinates(x, y)}"
 
     def set_position_value(self, value, position: str):
         """
