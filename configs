@@ -1,0 +1,1 @@
+GPIOZERO_PIN_FACTORY=pigpio PIGPIO_ADDR=localhost python3 servo.py

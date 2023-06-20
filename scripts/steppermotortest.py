@@ -13,4 +13,4 @@ from time import sleep
 
 if __name__ == "__main__":
     stepper = Stepper(STEPPER_STEP_PIN, STEPPER_DIRECTION_PIN, STEPPER_STEP_DEGREES)
-    stepper.rotate_steps(4800)
+    stepper.rotate_steps(-4800)

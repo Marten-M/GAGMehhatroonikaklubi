@@ -14,6 +14,8 @@ from time import sleep
 
 if __name__ == "__main__":
     led_strip = LEDStrip(MAIN_BOARD_LED_PIN, MAIN_BOARD_PIXEL_COUNT)
+    led_strip.set_strip_color((255, 255, 255))
+    led_strip.show_strip()
     board = Board(
         INITIAL_BOARD_STATE,
         INITIAL_WHITE,
@@ -27,7 +29,9 @@ if __name__ == "__main__":
     green = (0, 255, 0)
     sleep(3)
     board.set_color_square("OWa4", green)
+    board.update_square_colors()
     sleep(3)
     board.set_squares_color(["a1", "b4", "e5", "OBb2"], green)
+    board.update_square_colors()
     sleep(2)
 

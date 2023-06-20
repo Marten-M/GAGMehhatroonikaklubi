@@ -170,6 +170,12 @@ class Board(object):
         for square in squares:
             self.set_color_square(square, color)
 
+    def update_square_colors(self):
+        """
+        Update the color of the leds under the squares.
+        """
+        self.main_board_led_strip.show_strip()
+
     def color_boards(self):
         """Color the chess board squares."""
         self.main_board_led_strip.set_strip_color(self.white_square_color)
